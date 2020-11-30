@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Questions Page{% endblock %}
+
+{% block content %}
+
+
+
+<p>Question: {{number + 1}}</span> </p>
+<p>{{question.question}}</p>  
+
+<form method="POST" action="/answer">
+    <input required type="radio" name="choice" value="{{question.choices[0]}}">{{question.choices[0]}}
+    <input required type="radio" name="choice" value="{{question.choices[1]}}">{{question.choices[1]}}
+    </p><input type="submit"></p>
+</form>
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+

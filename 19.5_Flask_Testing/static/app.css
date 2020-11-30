@@ -1,0 +1,33 @@
+h1 {
+	color: Purple;
+	font-size: 50px;
+}
+
+body {
+	background-color: tan;
+}
+
+.board td {
+	border-width: 1px;
+	border-color: green;
+	color: white;
+	background-color: teal;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+}
+
+.board {
+	border-color: black;
+	border-width: 3px;
+	border-radius: 5%;
+}
+
+#guess {
+	margin-top: 20px;
+	padding: 5px;
+}
+
+#submitBtn {
+	margin-top: 20px;
+}

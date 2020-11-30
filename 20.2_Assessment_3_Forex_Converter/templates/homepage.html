@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XCHANGE</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <div class="container">
+    <form action="" method="POST" name="form" class="form" type="submit">
+      <h2>XCHANGE Forex Converter</h2>
+
+      <div class="form-control">
+        <label for="converting-from">Convert From:</label>
+        <input type="text" name="converting-from">
+      </div>
+
+      <div class="form-control">
+        <label for="converting-to">Convert To:</label>
+        <input type="text" name="converting-to">
+      </div>
+
+      <div class="form-control">
+        <label for="amount">Amount:</label>
+        <input type="text" name="amount">
+      </div>
+
+      <button>Convert</button>
+
+    </form>
+
+    <div>
+      {% if formatted_result %}
+      <div class="result">
+        {{currency_symbol_from}} {{amount}} = {{currency_symbol_to}} {{formatted_result}}
+      </div>
+      {% endif %}
+
+      {% if error_message %}
+      <div class="result">
+        {{error_message}}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="currency-container">
+
+    <h4>Supported Currencies</h4>
+    <div class="currencies">
+    <ul>
+      <li>EUR - Euro Member Countries</li>
+      <li>IDR - Indonesia Rupiah</li>
+      <li>BGN - Bulgaria Lev</li>
+      <li>ILS - Israel Shekel</li>
+      <li>GBP - United Kingdom Pound</li>
+      <li>DKK - Denmark Krone</li>
+      <li>CAD - Canada Dollar</li>
+      <li>JPY - Japan Yen</li>
+      <li>HUF - Hungary Forint</li>
+      <li>RON - Romania New Leu</li>
+      <li>MYR - Malaysia Ringgit</li>
+      <li>SEK - Sweden Krona</li>
+      <li>SGD - Singapore Dollar</li>
+      <li>HKD - Hong Kong Dollar</li>
+      <li>AUD - Australia Dollar</li>
+      <li>CHF - Switzerland Franc</li>
+      <li>KRW - Korea (South) Won</li>
+      <li>CNY - China Yuan Renminbi</li>
+      <li>TRY - Turkish Lira</li>
+      <li>HRK - Croatia Kuna</li>
+      <li>NZD - New Zealand Dollar</li>
+      <li>THB - Thailand Baht</li>
+      <li>USD - United States Dollar</li>
+      <li>NOK - Norway Krone</li>
+      <li>RUB - Russia Ruble</li>
+      <li>INR - India Rupee</li>
+      <li>MXN - Mexico Peso</li>
+      <li>CZK - Czech Republic Koruna</li>
+      <li>BRL - Brazil Real</li>
+      <li>PLN - Poland Zloty</li>
+      <li>PHP - Philippines Peso</li>
+      <li>ZAR - South Africa Rand</li>
+    </ul>
+  
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f3f3f3;
+  font-family: "Open Sans", sans-serif;
+  display: grid;
+  grid-template-columns: auto 250px;
+  grid-gap: 7rem;
+  align-items: center;
+  justify-content: center;
+  max-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba (0, 0, 0, 0.3);
+  width: 400px;
+}
+
+h2 {
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.form {
+  padding: 30px 40px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+}
+
+.form-control label {
+  color: #777;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control input {
+  border: 2px solid #f0f0f0;
+  border-radius: 4px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.form-control input:focus {
+  outline: 0;
+  border-color: #777;
+}
+
+.form button {
+  cursor: pointer;
+  background-color: #3498db;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  color: #fff;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.result {
+  text-align: center;
+  margin: 20px 0px 30px 0px;
+  font-size: 20px;
+  border: 2px solid teal;
+  background-color: teal;
+  color: white;
+  line-height: 30px;
+  padding: 3px;
+}
+
+.currencies {
+  justify-content: left;
+  font-size: 12px;
+  width: 100%;
+  text-align: left;
+}
+
+.currencies ul {
+  list-style-type: none;
+}
+
+.currency-container {
+  margin-top: 70px;
+  padding: 5px 0px;
+}
+
+h4 {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 0px;
+}

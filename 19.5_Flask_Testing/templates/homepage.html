@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<h1>BOGGLE GAME</h1>
+   
+
+
+<div id="boggle">
+
+    <div id="scoreSection">Your score is: <span id="currentScore">0</span></div>
+    <div id="timeSection">Time Left: <span id="currentTime">60</span> seconds</div>
+
+    <table class="board">
+        <tbody>
+        {% for row in board %}
+        <tr>
+            {% for cell in row %}
+            <td>{{ cell }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>High Score: 
+        <b>{{ highscore }}</b> 
+        in {{ nplays }} plays
+      </p>
+
+    <div id="form_container">
+        <form class="add-word" action="" method="">
+            <label for="guess">Word:</label>
+            <input id="guess" placeholder="What is your guess?" name="guess" type="text">
+            <div>
+                <button id="submitBtn" >Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <p id="wordStatus"></p>
+
+    <div>
+        <h2>Your Correct Words</h2>
+        <ul id="wordKeeper"></ul>
+    </div>
+
+
+</div>
+{% endblock %}
+
