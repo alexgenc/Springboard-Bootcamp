@@ -1,0 +1,37 @@
+h1 {
+	font-size: 40px;
+	color: purple;
+	margin-top: 20px;
+	text-align: center;
+}
+
+p {
+	text-align: center;
+}
+
+.container {
+	text-align: center;
+	margin: 50px;
+}
+
+.img {
+	margin: 20px;
+}
+
+#gifSection {
+	text-align: center;
+}
+
+#searchBtn,
+#removeBtn {
+	border: none;
+	font-size: 18px;
+	padding: 7px;
+	background-color: teal;
+	color: white;
+}
+
+input {
+	line-height: 30px;
+	width: 400px;
+}
