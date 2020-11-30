@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cupcakes</title>
+</head>
+<body>
+  <h1>Our Cupcakes</h1>
+
+  <div id="cupcakes">
+    
+  </div>
+
+  <div class="container form">
+    <h2>Add a Cupcake</h2>
+    <form action="/api/cupcakes" id="cupcake-add-form" method="POST">
+      {{ form.hidden_tag() }}
+  
+      {% for field in form if field.widget.input_type != 'hidden' %}
+  
+        <p>
+          {{ field.label }}
+          {{ field }}
+  
+          {% for error in field.errors %}
+            {{ error }}
+          {% endfor %}
+        </p>
+  
+      {% endfor %}
+  
+      <button class="btn-primary btn-lg" type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  <script src="/static/script.js"></script>
+</body>
+</html>

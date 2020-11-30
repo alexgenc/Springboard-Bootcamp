@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}AHG Pet Agency{% endblock %}
+
+
+{% block content %}
+
+<h1 class="display-3 m-4 text-center">Take Me HOME!</h1>
+
+
+  <div class="container fluid">
+    <div class="row">
+      {% for pet in pets %}
+      <div class="col-4">
+        <img class="img-thumbnail" src="{{pet.photo_url}}" alt="">
+        <p>  
+          {% if pet.available %}
+          <a href="/{{pet.id}}">{{pet.name}}</a> is still looking for a home!
+          {% else %}
+          <a href="/{{pet.id}}">{{pet.name}}</a> has found a home!
+          {% endif %}
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="form-container d-flex justify-content-center">
+    <form action="/add">
+      <button class="btn-success btn-lg">Add a Pet</button>
+    </form>
+    
+  </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Blogly - Users{% endblock %}
+
+{% block content %}
+
+<h1>Users</h1>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID#</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Profile</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <th scope="row">{{user.id}}</th>
+        <th scope="row">{{user.first_name}}</th>
+        <th scope="row">{{user.last_name}}</th>
+        <th scope="row"><a href="/users/{{user.id}}">View Profile</a></th>
+      {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="add-button d-flex justify-content-center">
+  <form action="/users/new">
+    <button class="btn btn-primary">Add User</button>
+  </form>
+</div>
+{% endblock %}

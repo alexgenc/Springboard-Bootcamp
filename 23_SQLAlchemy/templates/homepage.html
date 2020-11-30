@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Blogly{% endblock %}
+
+
+{% block content %}
+<h1>Latest Posts</h1>
+{% for post in posts %}
+<div class="container d-flex justify-content-center">
+  <h2>{{post.title}}</h2>
+</div>
+<div class="container d-flex justify-content-center">
+  <small>Post by <a href="/users/{{post.user.id}}">{{post.user.first_name}} {{post.user.last_name}}</a></small>
+</div>
+<div class="container d-flex justify-content-center">
+  Tags: 
+    {% for tag in post.tags %}
+    <small><a class="tags" href="/tags/{{tag.id}}">{{tag.name}}</a></small>
+    {% endfor %}
+</div>
+<div class="container d-flex justify-content-center">
+  <p>{{post.content}}</p>
+</div>
+{% endfor %}
+
+
+{% endblock %}

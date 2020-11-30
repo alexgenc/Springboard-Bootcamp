@@ -1,0 +1,102 @@
+/* General styles Start */
+
+h1 {
+  text-align: center;
+  margin: 30px 0px;
+}
+
+h2 {
+  text-align: center;
+  display: block;
+  margin-top: 30px;
+}
+
+p {
+  margin-top: 25px;
+}
+
+small {
+  font-size: 14px;
+  margin: 3px;
+}
+
+.tags {
+  background-color: #f39342;
+  border-radius: 10%;
+  padding: 5px;
+  color: #fff;
+  font-size: 12px;
+}
+
+/* Styles for add_user & edit_user pages */
+
+.table {
+  text-align: center;
+}
+
+.add-button button{
+  cursor: pointer;
+  display: block;
+  font-size: 20px;
+  padding: 7px;
+  margin-top: 30px;
+  width: 300px;
+}
+
+/* Styles for add_user page */
+
+.add-user {
+  width: 500px;
+}
+
+.add-form label {
+  color: #777;
+  display: block;
+  margin-top: 20px  ;
+}
+
+.add-form input, .add-form textarea {
+  border: 2px solid #f0f0f0;
+  border-radius: 4px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.add-form .checkbox{
+  margin-top: 5px;
+  display: inline;
+  width: 5%;
+}
+
+.add-form .checkbox-label {
+  display: inline;
+}
+
+.add-form button, .remove-form button {
+  cursor: pointer;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Styles for add_user page */
+
+.profile-img {
+  width: 400px;
+  height: auto;
+}
+
+.buttons {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 30px;
+}
+
+.buttons .button {
+  cursor: pointer;
+}
