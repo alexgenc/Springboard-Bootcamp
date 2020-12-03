@@ -262,6 +262,26 @@ def delete_user():
 
     return redirect("/signup")
 
+@app.route('/users/<int:user_id>/likes')
+def show_likes(user_id):
+    user = User.query.get_or_404(user_id)
+    
+    return render_template('/users/likes.html', user=user)
+
+@app.route('/users/add_like/<int:message_id>', methods=["POST"])
+def like_message(message_id):
+    """Like a message."""
+    message = Message.query.get_or_404(message_id)
+    if message not in g.user.likes:
+        g.user.likes.append(message)
+
+    else: 
+        g.user.likes.remove(message)
+
+    db.session.commit()
+
+    return redirect(request.referrer)
+
 
 ##############################################################################
 # Messages routes:
@@ -325,13 +345,21 @@ def homepage():
     """
 
     if g.user:
+        # get followed users to show their messages
+        show_users = [fu.id for fu in g.user.following]
+        # add current user to the followed users list
+        show_users.append(g.user.id)
+        # get only current user's and his/her followers' messages
         messages = (Message
                     .query
+                    .filter(Message.user_id.in_(show_users))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
-        # breakpoint()
-        return render_template('home.html', messages=messages)
+        # get users liked messages
+        likes = [like.id for like in g.user.likes]  
+
+        return render_template('home.html', messages=messages, likes=likes)
 
     else:
         return render_template('home-anon.html')
