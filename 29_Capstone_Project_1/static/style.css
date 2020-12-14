@@ -1,0 +1,70 @@
+:root {
+  --modal-duration: 1s;
+  --primary-color: #30336b;
+  --secondary-color: #be2edd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.view-recipe-button, .view-recipe-button:hover {
+  color: #fff;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+.meal-category-img {
+  width: 350px;
+  height: auto;
+}
+
+.meal-titles, .meal-titles:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+.meal-img {
+  width: 600px;
+  height: auto;
+}
+
+
+.comment-wrapper {
+  overflow:auto;
+}
+
+.comment-wrapper .media-list .media img {
+  width:64px;
+  height:64px;
+  border:2px solid #e5e7e8;
+}
+
+.comment-wrapper .media-list .media {
+  border-bottom:1px dashed #d3d3d3;
+  margin-bottom:25px;
+}
+
+.trash-btn {
+  background: none;
+  border: none;
+}
+
+.trash-btn:hover {
+  color: #ff0000;
+}
+
+
+.user-profile-img {
+  width: 200px;
+  height: auto;
+  border-radius: 50px;
+}
+
+

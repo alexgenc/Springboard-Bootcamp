@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Health App{% endblock %}
+
+{% block content %}
+
+<h1>Welcome to Healthy Living!</h1>
+
+<p>Here, you can find great exercises to add to your workouts as well as amazing meal recipes to brighten your meals.</p>
+
+<div class="mt-5">
+  <h3 class="mb-3">Latest Health News by NYTimes</h3>
+  <ul>
+    {% for hr in health_result %}
+    <li><a href="{{hr.web_url}}">{{hr.abstract}}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="mt-5 mb-5">
+  <h3 class="mb-3">Latest Exercise News by NYTimes</h3>
+  <ul>
+    {% for er in exercise_result %}
+    <li><a href="{{er.web_url}}">{{er.abstract}}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}
+  
+ 
+
