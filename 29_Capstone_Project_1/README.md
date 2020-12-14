@@ -5,3 +5,5 @@
 **Meals API:** https://www.themealdb.com/api.php  
 **News API:** https://developer.nytimes.com/  
 
+## Database Schema Design
+[![Database-Schema-Design.jpg](https://i.postimg.cc/VvmntCtK/Database-Schema-Design.jpg)](https://postimg.cc/r0ZDXzQ4)
