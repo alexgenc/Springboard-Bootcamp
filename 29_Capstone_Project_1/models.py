@@ -99,38 +99,11 @@ class User(db.Model):
         u = self
         return f"<{u.username}: {u.first_name} {u.last_name} - {u.email}>"
 
-
-
-
-class UserMeal(db.Model):
-    """Model for users' meals."""
-
-    __tablename__ = "user_meals"
-
-    id = id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, auto_increment=True)
-    user_id = db.Column(db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    meal_id = db.Column(db.Integer, unique=True, nullable=False)
-    meal_name = db.Column(db.Text, unique=True, nullable=False)
-    meal_category = db.Column(db.Integer, nullable=False)
-
-class ExerciseComment(db.Model):
-    """Comment model for exercises."""
-
-    __tablename__ = "exercise_comments"
-
-    id = id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, auto_increment=True)
-    content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    exercise_id = db.Column(db.ForeignKey("exercises.id", ondelete="CASCADE"), nullable=False)
-
-    exercise = db.relationship("Exercise")
-
 class ExerciseCategory(db.Model):
     __tablename__ = "exercise_categories"
 
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     name = db.Column(db.Text, unique=True, nullable=False)
-
 
 class Exercise(db.Model):
     __tablename__ = "exercises"
@@ -150,6 +123,39 @@ class MealCategory(db.Model):
     description = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.Text, nullable=False)
 
+class UserExercise(db.Model):
+    """Model for users' exercises."""
+
+    __tablename__ = "user_exercises"
+
+    id = id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, auto_increment=True)
+    user_id = db.Column(db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    exercise_id = db.Column(db.ForeignKey("exercises.id", ondelete="CASCADE"), unique=True, nullable=False)
+
+    exercise = db.relationship("Exercise", backref="user_exercise", cascade="all, delete") 
+
+class UserMeal(db.Model):
+    """Model for users' meals."""
+
+    __tablename__ = "user_meals"
+
+    id = id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, auto_increment=True)
+    user_id = db.Column(db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    meal_id = db.Column(db.Integer, unique=True, nullable=False)
+    meal_name = db.Column(db.Text, unique=True, nullable=False)
+    meal_category = db.Column(db.Integer, nullable=False)
+
+class ExerciseComment(db.Model):
+    """Comment model for exercises."""
+
+    __tablename__ = "exercise_comments"
+
+    id = id = db.Column(db.Integer, primary_key=True, auto_increment=True)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    exercise_id = db.Column(db.ForeignKey("exercises.id", ondelete="CASCADE"), nullable=False)
+
+    exercise = db.relationship("Exercise")
 
 class MealComment(db.Model):
     """Comment model for exercises."""
@@ -162,17 +168,6 @@ class MealComment(db.Model):
     meal_id = db.Column(db.Integer, nullable=False)
     meal_name = db.Column(db.Text, nullable=False)
     meal_category = db.Column(db.Integer, nullable=False)
-
-class UserExercise(db.Model):
-    """Model for users' exercises."""
-
-    __tablename__ = "user_exercises"
-
-    id = id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, auto_increment=True)
-    user_id = db.Column(db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    exercise_id = db.Column(db.ForeignKey("exercises.id", ondelete="CASCADE"), unique=True, nullable=False)
-
-    exercise = db.relationship("Exercise", backref="user_exercise", cascade="all, delete") 
 
 def connect_db(app):
     """Connect this database to provided Flask app.
