@@ -1,6 +1,21 @@
 # HEALTHY LIVING - CAPSTONE PROJECT 1 - ALEX GENC
 
-## API:
+## ABOUT THE PROJECT
+The intention of this project is to create a full-stack web application using all the technologies learned up to this point (~40%) in Springboard's Software Engineering Career Track course.
+
+This project, called Healthy Living, uses the following technologies:
+  - HTML
+  - CSS
+  - JavaScript
+  - Ajax
+  - Python
+  - Flask
+  - Jinja
+  - WTForms
+  - PostgreSQL
+  - SQLAlchemy
+
+## API
 **Exercises API:** https://wger.de/en/software/api  
 **Meals API:** https://www.themealdb.com/api.php  
 **News API:** https://developer.nytimes.com/  
