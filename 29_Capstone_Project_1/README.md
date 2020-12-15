@@ -51,6 +51,10 @@ Users who are not logged in will be able to view latest news on the homepage, ex
 
 Logged in users will be able to view specific meal and exercise pages, post comments on meals and exercises, add meals and exercises to their favorites. Logged in users also have access to their user dashboard, which they can use to update their account information and change password. User dashboard also displays a user's favorite meals, exercises, as well as their comments on different meals and exercises.
 
+## Password Protection
+
+All passwords are salted and encrypted using BCrypt, using the wrapper flask-bcrypt and the hash is saved on the database. This adds a layer of security to the password and make it harder to be cracked.
+
 ## API
 **Exercises API:** https://wger.de/en/software/api  
 **Meals API:** https://www.themealdb.com/api.php  
