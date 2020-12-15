@@ -1,4 +1,4 @@
-
+import os
 
 from flask import Flask, redirect, render_template, session, flash, request
 import requests
@@ -22,6 +22,15 @@ debug = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all()
 
+@app.before_first_request
+def populate_database():
+    """ Run helper functions to populate database if needed."""    
+
+    # These helper functions check if APIs return any new meal or exercise data. If so, they take that data and add it to the database.
+
+    get_exercise_categories()
+    get_meal_categories()
+    get_exercises()
 
 @app.route('/')
 def homepage():
@@ -526,7 +535,7 @@ def not_authorized(e):
     return render_template("401.html"), 401
 
 ###
-# Helper functions to get data into database
+# Helper functions to check if APIs have any new meal or exercise results. 
 ###
 
 def get_exercise_categories():
@@ -534,14 +543,24 @@ def get_exercise_categories():
     request = requests.get('https://wger.de/api/v2/exercisecategory/')
 
     result = request.json()
-  
-    for item in result['results']:
-    
-        exercise_category = ExerciseCategory(id=item['id'], name=item['name'])
 
-        db.session.add(exercise_category)
-  
-        db.session.commit()
+    # Find all exercise categories currently stored in database
+    exercise_categories = ExerciseCategory.query.all()
+
+    category_ids = []
+
+    # Push current exercise category ids into a list
+    for category in exercise_categories:
+        category_ids.append(category.id)    
+
+    # If there is a new category in API result that doesn't exist in database, store it in database.
+    for item in result['results']:
+        if item['id'] not in category_ids:
+            exercise_category = ExerciseCategory(id=item['id'], name=item['name'])
+
+            db.session.add(exercise_category)
+    
+            db.session.commit()
 
 def get_exercises():
     """Get exercises from API and place them in db."""
@@ -549,12 +568,22 @@ def get_exercises():
 
     result = request.json()
 
-    for item in result['results']:
-        exercise = Exercise(id=item['id'], name=item['name'], description=item['description'], category_id=item['category'])
-        
-        db.session.add(exercise)
+    # Find all exercises currently stored in database
+    exercises = Exercise.query.all()
 
-        db.session.commit()
+    exercise_ids = []
+
+    for exercise in exercises:
+        exercise_ids.append(exercise.id)
+
+
+    for item in result['results']:
+        if item['id'] not in exercise_ids:
+            exercise = Exercise(id=item['id'], name=item['name'], description=item['description'], category_id=item['category'])
+        
+            db.session.add(exercise)
+
+            db.session.commit()
 
 def get_meal_categories():
     """Get meal categories from API and place them in db."""
@@ -563,9 +592,21 @@ def get_meal_categories():
 
     result = request.json()
 
+    # Find all meal categories currently stored in database
+    meal_categories = MealCategory.query.all()
+
+    category_ids = []
+
+    # Push current exercise category ids into a list
+    for category in meal_categories:
+        category_ids.append(category.id)    
+
+    
+    # If there is a new category in API result that doesn't exist in database, store it in database.
     for item in result['categories']:
-        meal_category = MealCategory(id=item['idCategory'], name=item['strCategory'], description=item['strCategoryDescription'], image_url=item['strCategoryThumb'])
+        if int(item['idCategory']) not in category_ids:
+            meal_category = MealCategory(id=item['idCategory'], name=item['strCategory'], description=item['strCategoryDescription'], image_url=item['strCategoryThumb'])
 
-        db.session.add(meal_category)
+            db.session.add(meal_category)
 
-        db.session.commit()
+            db.session.commit()
