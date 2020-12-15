@@ -88,7 +88,7 @@ def login():
         username = form.username.data
         password = form.password.data
 
-        user = User.login(username, password)
+        user = User.authenticate(username, password)
 
         if user:
             session["username"] = user.username
