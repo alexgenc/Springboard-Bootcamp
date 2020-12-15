@@ -15,7 +15,7 @@ db.create_all()
 # Don't have WTForms use CSRF at all, since it's a pain to test
 app.config['WTF_CSRF_ENABLED'] = False
 
-class MessageViewTestCase(TestCase):
+class ExerciseViewTestCase(TestCase):
     """Test views for exercises."""
 
     def setUp(self):
