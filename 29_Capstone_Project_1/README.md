@@ -67,6 +67,6 @@ There are a total of 6 test files. 3 of them are for model tests, and the remani
   - test_exercise_models.py - Test exercise instances, user exercises, and user exercise comments.
   - test_meal_models.py - Test meal instances, user meals, and user meal comments.
   - test_user_model.py : Test user registration, user login, invalid registration and login cases, changing password, and more.
-  - test_exercise_views.py - Test exercise related routes display as intended.
-  - test_meal_views.py - Test meal related routes display as intended.
-  - test_user_views.py - Test user related routes display as intended.
+  - test_exercise_views.py - Test if exercise related routes display as intended.
+  - test_meal_views.py - Test if meal related routes display as intended.
+  - test_user_views.py - Test if user related routes display as intended.
