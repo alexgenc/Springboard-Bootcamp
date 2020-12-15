@@ -314,7 +314,7 @@ def unfavorite_exercise(username):
 
     return redirect(request.referrer)
 
-@app.route('/exercise_comments/<int:comment_id>/delete', methods=["POST"])
+@app.route('/exercise-comments/<int:comment_id>/delete', methods=["POST"])
 def delete_exercise_comment(comment_id):
     """Delete an exercise comment."""
 
@@ -331,7 +331,7 @@ def delete_exercise_comment(comment_id):
 
     return redirect(request.referrer)
 
-@app.route('/meal_comments/<int:comment_id>/delete', methods=["POST"])
+@app.route('/meal-comments/<int:comment_id>/delete', methods=["POST"])
 def delete_meal_comment(comment_id):
     """Delete a meal comment."""
 
