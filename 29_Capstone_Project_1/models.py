@@ -118,7 +118,7 @@ class UserExercise(db.Model):
     user_id = db.Column(db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     exercise_id = db.Column(db.ForeignKey("exercises.id", ondelete="CASCADE"), unique=True, nullable=False)
 
-    exercise = db.relationship("Exercise", backref="user_exercise", cascade="all, delete") 
+    exercise = db.relationship("Exercise") 
 
 class UserMeal(db.Model):
     """Model for users' meals."""
