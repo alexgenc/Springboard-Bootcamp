@@ -526,7 +526,6 @@ def add_meal_comment(category_id, meal_id):
 def page_not_found(e):
     return render_template("404.html"), 404
 
-
 @app.errorhandler(401)
 def not_authorized(e):
     return render_template("401.html"), 401
