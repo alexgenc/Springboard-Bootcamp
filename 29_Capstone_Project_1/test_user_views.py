@@ -27,10 +27,10 @@ class UserViewTestCase(TestCase):
         # don't allow debug toolbar to work during testing
         app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
 
-        # # create a test user
-        # u = User.register("testing", "password", "testing@test.com", "John", "Doe", None)
-        # u.id = 888
-        # db.session.commit()
+        # create a test user
+        u = User.register("testing", "password", "testing@test.com", "John", "Doe", None)
+        u.id = 888
+        db.session.commit()
 
     def test_exercise_page(self):
         with app.test_client() as client:
