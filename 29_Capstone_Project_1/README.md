@@ -60,3 +60,13 @@ Logged in users will be able to view specific meal and exercise pages, post comm
 [![Database-Schema-Design.jpg](https://i.postimg.cc/VvmntCtK/Database-Schema-Design.jpg)](https://postimg.cc/r0ZDXzQ4)
 
 **Meal information is directly fetched from the API and therefore, not stored in the database.**
+
+## Testing
+
+There are a total of 6 test files. 3 of them are for model tests, and the remaning 3 are for view tests.
+  - test_exercise_models.py - Test exercise instances, user exercises, and user exercise comments.
+  - test_meal_models.py - Test meal instances, user meals, and user meal comments.
+  - test_user_model.py : Test user registration, user login, invalid registration and login cases, changing password, and more.
+  - test_exercise_views.py - Test exercise related routes display as intended.
+  - test_meal_views.py - Test meal related routes display as intended.
+  - test_user_views.py - Test user related routes display as intended.
