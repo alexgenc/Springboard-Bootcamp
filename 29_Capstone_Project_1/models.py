@@ -28,6 +28,8 @@ class User(db.Model):
 
     user_exercises = db.relationship("UserExercise", backref="user", cascade="all, delete") 
 
+    user_meals = db.relationship("UserMeal", backref="user", cascade="all,delete")
+
     @classmethod
     def register(cls, username, password, email, first_name, last_name, img_url):
         """Register user with hashed password and return user."""
@@ -42,26 +44,10 @@ class User(db.Model):
         db.session.add(user)
         
         return user
-
-    @classmethod
-    def login(cls, username, password):
-        """Authenticate and login user."""
-        user = User.query.filter_by(username=username).first()
-
-        # validate if user exists and if password is correct
-        if user and bcrypt.check_password_hash(user.password, password):
-            #return user instance
-            return user
-        else: 
-            return False
-    
+ 
     @classmethod
     def authenticate(cls, username, password):
-        """Find user with `username` and `password`.
-
-        This is a class method (call it on the class, not an individual user.)
-        It searches for a user whose password hash matches this password
-        and, if it finds such a user, returns that user object.
+        """Find user with `username` and `password`
 
         If can't find matching user (or if password is wrong), returns False.
         """
