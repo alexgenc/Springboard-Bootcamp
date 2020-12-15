@@ -368,7 +368,6 @@ def display_workout_categories():
     
     return render_template("/exercise/exercise_categories.html", categories=categories)
 
-
 @app.route('/exercises/<int:category_id>/')
 def display_exercises(category_id):
     """Display exercises for a specific category."""
@@ -402,7 +401,6 @@ def display_exercise(category_id, exercise_id):
     form = CommentForm()
     
     return render_template("exercise/exercise.html", exercise=exercise, comments=comments, form=form, user=user, user_exercise=user_exercise, comment_count=comment_count)
-
 
 @app.route('/exercises/<int:category_id>/<int:exercise_id>/comment', methods=["POST"])
 def add_exercise_comment(category_id, exercise_id):
@@ -440,7 +438,6 @@ def display_meal_categories():
     meal_categories = MealCategory.query.all()
 
     return render_template("meal/meal_categories.html", meal_categories=meal_categories)
-
 
 @app.route('/meals/<int:category_id>')
 def display_meal_by_categories(category_id):
