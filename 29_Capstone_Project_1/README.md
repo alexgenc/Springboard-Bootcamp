@@ -40,7 +40,9 @@ This project, called Healthy Living, uses the following technologies:
   - /exercises/<category_id>/<exercise_id>/comment - Exercise comment route.
   
   ### Meal Routes
-  - /meals - All meal categories route.
+  - /meals - Allow users to view meal categories or directly search for a meal.
+  - /meal-categories - All meal categories route.
+  - /meals/search - Meal search route.
   - /meals/<category_id> - Meals for a specific meal category route. 
   - /meals/<category_id>/<meal_id> - Meal details route.
   - /meals/<category_id>/<meal_id>/comment - Meal comment route.
