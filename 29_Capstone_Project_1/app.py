@@ -327,12 +327,12 @@ def unfavorite_exercise(username):
 def delete_exercise_comment(comment_id):
     """Delete an exercise comment."""
 
+    # Find user's exercise comment to delete from the database
+    comment = ExerciseComment.query.get_or_404(comment_id)
+
     # Make sure the logged in user is the authorized user.
     if "username" not in session or comment.user.username != session['username']:
         raise Unauthorized()
-
-    # Find user's exercise comment to delete from the database
-    comment = ExerciseComment.query.get_or_404(comment_id)
 
     db.session.delete(comment)
 
@@ -344,12 +344,12 @@ def delete_exercise_comment(comment_id):
 def delete_meal_comment(comment_id):
     """Delete a meal comment."""
 
+    # Find user's meal comment to delete from the database
+    comment = MealComment.query.get_or_404(comment_id)
+
     # Make sure the logged in user is the authorized user.
     if "username" not in session or comment.user.username != session['username']:
         raise Unauthorized()
-
-    # Find user's meal comment to delete from the database
-    comment = MealComment.query.get_or_404(comment_id)
 
     db.session.delete(comment)
     db.session.commit()
