@@ -46,7 +46,7 @@
                 <p class="comment ml-2" id="{{comment.id}}">
                     {{comment.content}}
                     {% if session['username'] == comment.user.username %}
-                      <form action="/exercise_comments/{{comment.id}}/delete" method="POST">
+                      <form action="/exercise-comments/{{comment.id}}/delete" method="POST">
                         <small>
                           <button id="trash-btn" class="trash-btn"><i class="fa fa-trash"></i></button>
                         </small>
