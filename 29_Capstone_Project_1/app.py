@@ -432,12 +432,24 @@ def add_exercise_comment(category_id, exercise_id):
 ###
 
 @app.route('/meals')
+def meals_top_page():
+    """Display options to view meals."""
+
+    return render_template("meal/meals_index.html")
+
+@app.route('/meals/meal-categories')
 def display_meal_categories():
     """Display meal categories."""
 
     meal_categories = MealCategory.query.all()
 
     return render_template("meal/meal_categories.html", meal_categories=meal_categories)
+
+@app.route('/meals/search')
+def meal_search():
+    """Show a search form for users to directly search for meals and display search results."""
+
+    return render_template("meal/meal_search.html")
 
 @app.route('/meals/<int:category_id>')
 def display_meal_by_categories(category_id):
