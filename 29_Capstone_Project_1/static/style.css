@@ -154,6 +154,7 @@ input[type='text'] {
 
 .meal:hover .meal-info {
   opacity: 1;
+  color: #fff;
 }
 
 .single-meal {
