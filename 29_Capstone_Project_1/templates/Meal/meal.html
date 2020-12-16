@@ -8,13 +8,13 @@
   {% if m_id == user_meal.meal_id %} 
     <form action="/users/{{session['username']}}/meals/remove" method="POST">
       <small>
-        <button class="btn btn-sm btn-danger" name="data" value={{m_id}}>Remove From My Meals</button>
+        <button id="meal-id-btn" class="btn btn-sm btn-danger" name="data" value={{m_id}}>Remove From My Meals</button>
       </small>
     </form>
   {% else %}
     <form action="/users/{{session['username']}}/meals/add" method="POST">
       <small>
-        <button class="btn btn-sm btn-success" name="data" value={{m_id}}>Add to My Meals</button>
+        <button id="meal-id-btn" class="btn btn-sm btn-success" name="data" value={{m_id}}>Add to My Meals</button>
       </small>
     </form> 
   {% endif %}
@@ -31,6 +31,8 @@
   </div>
 </div>
 
+<div class="mt-5 text-center" id="ingredients-container"></div>
+
 {% if meal.strYoutube %}
 <h3 class="mt-5 text-center">Watch & Learn</h3>
 <div class="d-flex justify-content-center">
@@ -44,7 +46,7 @@
 
 {% block js %}
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="/static/meals2.js"></script>
+  <script src="/static/meal.js"></script>
 {% endblock %}
  
 
