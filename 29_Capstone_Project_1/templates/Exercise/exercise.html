@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1 class="text-center mb-5">{{exercise.name}}
+<h1 id="{{exercise.name}}" class="text-center mb-5">{{exercise.name}}
   <span>  
   {% if exercise.id == user_exercise.exercise_id %} 
     <form action="/users/{{session['username']}}/exercises/remove" method="POST">
@@ -25,7 +25,9 @@
   </span> 
 </h1>
      
-<div>{{exercise.description}}</div>
+<div id="exercise-description">{{exercise.description}}</div>
+
+<div id="images-container" class="container-fluid mt-5 d-flex justify-content-center"></div>
 
 {% include '/exercise/exercise_comment.html' %}
   
@@ -33,4 +35,5 @@
 
 {% block js %}
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/static/exercise.js"></script>
 {% endblock %}

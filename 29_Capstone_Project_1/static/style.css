@@ -198,3 +198,8 @@ input[type='text'] {
   padding: 5px;
   margin: 0 5px 5px 0;
 }
+
+.exercise-img{
+  width: 400px;
+  height: auto;
+}
