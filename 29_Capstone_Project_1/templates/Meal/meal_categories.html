@@ -8,7 +8,7 @@
 <div>
   {% for mc in meal_categories %}
     <div> 
-      <h3>{{mc.name}}  <span class="btn btn-sm btn-info"><a class="view-recipe-button" href="meals/{{mc.id}}">View Recipes</a></span></h3> 
+      <h3>{{mc.name}}  <span class="btn btn-sm btn-info"><a class="view-recipe-button" href="/meals/{{mc.id}}">View Recipes</a></span></h3> 
       <p>{{mc.description}}<p>
       <div class="row d-flex justify-content-center">
         <img class="mt-1 mb-5" src="{{mc.image_url}}" alt="{{mc.name}}">
