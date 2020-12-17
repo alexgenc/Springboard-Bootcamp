@@ -1,9 +1,12 @@
+// Select meal container element
 mealContainer = document.getElementById('meal-container');
-h1 = document.getElementsByClassName('h1');
-meal_category = h1[0].id;
-meal_category_id = h1[0].dataset.id;
 
+// Meal category name and meal category id are stored on the h1 for easy access. Get those values from there.
+h1 = document.querySelector('h1');
+meal_category = h1.id;
+meal_category_id = h1.dataset.id;
 
+// Helper function for generating HTML markup
 function generateHTML(meal) {
   return `
       <div class="col-12">
@@ -20,6 +23,7 @@ function generateHTML(meal) {
   `;
 }
 
+// Send API request and display each meal in meal container element
 async function getMealsByCategory() {
   res = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${meal_category}`);
    
@@ -33,8 +37,7 @@ async function getMealsByCategory() {
 }
 
 
-
-
+// On Load
 getMealsByCategory();
 
 
