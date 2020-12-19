@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Facts</title>
+</head>
+<body>
+  <h1>Number Facts</h1>
+
+  <h2>Get a Single Fact About Your Favorite Number!</h2>
+  <form action="">
+    <label for="user-fav">Your Favorite Number</label>
+    <input id="user-fav" type="number">
+    <button id="part1-button">Get a Fact</button>
+  </form>
+  
+  <!-- Part 1 Container -->
+  <div>
+    <ul id="part1-facts"></ul>
+  </div>
+
+  <h2>Get Facts For Multiple Numbers!</h2>
+  
+  <form action="">
+    <label for="user-choice">Number of Different Numbers</label>
+    <input id="user-choice" type="number">
+    <button id="part2-button">Get Facts</button>
+  </form>
+
+  <!-- Part 2 Container -->
+  <div>
+    <ul id="part2-facts"></ul>
+  </div>
+
+
+  <h2>Get 4 Facts For Your Favorite Number</h2>
+  <form action="">
+    <label for="user-fav4">Your Favorite Number</label>
+    <input id="user-fav4" type="number">
+    <button id="part3-button">Get 4 Facts</button>
+  </form>
+  
+  <!-- Part 2 Container -->
+  <div>
+    <ul id="part3-facts"></ul>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
