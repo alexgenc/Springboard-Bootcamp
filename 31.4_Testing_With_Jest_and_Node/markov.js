@@ -32,30 +32,28 @@ class MarkovMachine {
     this.chains = chains;
   }
 
-  static getRandomWord(map) {
-    let keys = Array.from(map.keys());
+  /** Pick random choice from array */
 
-    let randomIndex = Math.floor(Math.random() * keys.length);
-
-    let randomKey = keys[randomIndex];
-  
-    let randomWord = map.get(randomKey);
-
-    return randomWord
+  static choice(ar) {
+    return ar[Math.floor(Math.random() * ar.length)];
   }
+
 
   /** return random text from chains */
 
   makeText(numWords = 100) {
-    let randomWord = MarkovMachine.getRandomWord(this.chains);
-    let output = [];
-    
-    while (output.length < numWords && randomWord !== null) {
-      output.push(randomWord)
-      randomWord = MarkovMachine.getRandomWord(this.chains);
+    // pick a random key to begin
+    let keys = Array.from(this.chains.keys());
+    let key = MarkovMachine.choice(keys);
+    let out = [];
+
+    // produce markov chain until reaching termination word
+    while (out.length < numWords && key !== null) {
+      out.push(key);
+      key = MarkovMachine.choice(this.chains.get(key));
     }
 
-    return output.join(" ");
+    return out.join(" ");
   }
 }
 
