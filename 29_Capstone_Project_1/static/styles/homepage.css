@@ -9,13 +9,14 @@
   --navColor5: #2c8437;
 }
 
-html {
+* {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
   font-family: Nunito, sans-serif;
+  background-color: whitesmoke;
 }
 
 /* --- Navigation Menu ------------------------------ */
@@ -227,24 +228,23 @@ section#home {
   background-image: url("https://images.unsplash.com/photo-1554825203-68321ddde262?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=977&q=80");
   background-size: cover;
   background-position: center center;
-  opacity: 0.9;
 }
 
 section#home h1 {
   position: absolute;
   top: 30%;
-  left: 30%;
+  left: auto;
   text-align: center;
-  font-size: 40px;
+  font-size: 60px;
   text-transform: uppercase;
 }
 
 section#home p {
   position: absolute;
   top: 50%;
-  left: 8%;
+  left: auto;
   text-align: center;
-  font-size: 22px;
+  font-size: 30px;
 }
 
 section#home #info-bar {
@@ -254,7 +254,7 @@ section#home #info-bar {
   display: flex;
   position: absolute;
   top: 75%;
-  left: 26%;
+  left: auto;
   align-items: center;
   justify-content: center;
 }
@@ -262,7 +262,7 @@ section#home #info-bar {
 section#home span {
   position: absolute;
   top: 70%;
-  left: 45%;
+  left: auto;
   font-size: 24px;
   text-decoration: underline;
   padding: 2px 8px;
@@ -298,3 +298,29 @@ section#home .home-tag {
   }
 }
 
+.news-container ul {
+  list-style-type: none;
+  margin-bottom: 50px;
+}
+
+.news-container li {
+  font-size: 20px;
+  margin: 10px 0px;
+  color: #333;
+}
+
+.news-container a, .news-container a:hover {
+  text-decoration: none;
+  color: #333;
+}
+
+.news-container i {
+  color: #4ee44e;
+}
+
+
+h3 {
+  font-size: 30px;
+  text-align: center;
+  margin-top: 40px;
+}

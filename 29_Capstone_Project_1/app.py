@@ -35,13 +35,13 @@ def populate_database():
 @app.route('/')
 def homepage():
 
-    health_request = requests.get('https://api.nytimes.com/svc/search/v2/articlesearch.json?q=healthy eating &api-key=pGxge4py5HixsDSWMiP4CUbnFQYXiAAE')
+    health_request = requests.get('https://content.guardianapis.com/search?q=%22healthy%20eating%22&api-key=67145bff-c60a-4155-a395-30810db46f1f')
 
-    health_result = health_request.json()['response']['docs']
+    health_result = health_request.json()['response']['results']
 
-    exercise_request = requests.get('https://api.nytimes.com/svc/search/v2/articlesearch.json?q=workout and exercise &api-key=pGxge4py5HixsDSWMiP4CUbnFQYXiAAE')
+    exercise_request = requests.get('https://content.guardianapis.com/search?q=%22exercising%22&api-key=67145bff-c60a-4155-a395-30810db46f1f')
 
-    exercise_result = exercise_request.json()['response']['docs']
+    exercise_result = exercise_request.json()['response']['results']
 
     return render_template("homepage.html", health_result=health_result, exercise_result=exercise_result)
 

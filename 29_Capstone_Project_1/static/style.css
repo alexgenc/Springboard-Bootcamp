@@ -1,8 +1,4 @@
-:root {
-  --modal-duration: 1s;
-  --primary-color: #30336b;
-  --secondary-color: #be2edd;
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 * {
   box-sizing: border-box;
@@ -10,6 +6,7 @@
 
 body {
   margin: 0;
+  font-family: Lato, sans-serif;
 }
 
 .view-recipe-button, .view-recipe-button:hover {
