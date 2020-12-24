@@ -1,18 +1,42 @@
 const express = require('express');
-let axios = require('axios');
-var app = express();
+const app = express();
+const ExpressError = require('./error');
+const getDevData = require('./helpers')
 
-app.post('/', function(req, res, next) {
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.post('/', async function(req, res, next) {
   try {
-    let results = req.body.developers.map(async d => {
-      return await axios.get(`https://api.github.com/users/${d}`);
-    });
-    let out = results.map(r => ({ name: r.data.name, bio: r.data.bio }));
+    
+    let output = await getDevData(req);
 
-    return res.send(JSON.stringify(out));
-  } catch {
+    return res.send(JSON.stringify(output));
+  } 
+  catch(err) {
     next(err);
   }
 });
 
-app.listen(3000);
+// 404 error handler
+app.use(function (req, res, next) {
+  const err = new ExpressError("Page Not Found!", 404);
+
+  return next(err);
+});
+
+// General error handler
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+
+  return res.json({
+    error: {
+      message: err.message,
+      status: err.status,
+    }
+  });
+});
+
+
+
+module.exports = app
