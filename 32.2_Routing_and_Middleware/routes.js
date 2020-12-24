@@ -8,44 +8,54 @@ const ExpressError = require('./error');
 // GET /items route
 router.get("/", (req, res) => {
   // List items in fakeDB
-  return res.json(items)
+  return res.json({"items": items});
 })
 
 // POST /items route
-router.post("/", (req, res) => {
-
-  // Check if request body is empty
-  if (!req.body) {
-    throw new ExpressError("Please submit an item.", 400);
-  }
-
-  // Get new item from request body
-  let newItem = req.body;
-  
-  items.push(newItem)
-
-  // Create server response
-  let serverResponse = { 
-    "added": {
-      "name": `${newItem.name}`,
-      "price": `${newItem.price}`
+router.post("/", (req, res, next) => {
+  try {
+    // Check if request body is empty
+    if (!req.body.name || !req.body.price) {
+      throw new ExpressError("Please submit an item.", 400);
     }
-  }
 
-  return res.status(201).json(serverResponse)
+    // Get new item from request body
+    let newItem = req.body;
+    
+    items.push(newItem)
+
+    // Create server response
+    let serverResponse = { 
+      "added": {
+        "name": req.body.name,
+        "price": req.body.price
+      }
+    }
+
+    return res.status(201).json(serverResponse);
+  } 
+  catch(e) {
+    next(e)
+  }
 })
 
 // GET /items/:name route
-router.get("/:name", (req, res) => {
-  // Find item from fakeDB
-  const item = items.find( i => i.name === req.params.name);
+router.get("/:name", (req, res, next) => {
+  try {
+    // Find item from fakeDB
+    const item = items.find( i => i.name === req.params.name);
   
-  // Check if item exists
-  if (!item) {
+    // Check if item exists
+    if (!item) {
     throw new ExpressError("Item not found!", 404);
-  }
+    }
 
-  return res.send(item);
+    return res.send({"item": item});
+  }
+  catch(e) {
+    next(e);
+  }
+  
 })
 
 // PATCH /items/:name route
@@ -69,7 +79,7 @@ router.patch("/:name", (req, res) => {
   let serverResponse = { 
     "updated": {
       "name": `${item.name}`,
-      "price": `${item.price}`
+      "price": updatedItem.price
     }
   }
 
