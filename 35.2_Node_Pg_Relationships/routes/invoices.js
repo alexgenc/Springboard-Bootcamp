@@ -1,3 +1,5 @@
+// Routes file for invoices
+
 const express = require('express');
 const router = new express.Router();
 const ExpressError = require('../expressError');
@@ -18,6 +20,7 @@ router.get("/", async (req, res, next) => {
 // GET /invoices/:id route
 router.get("/:id", async (req, res, next) => {
   try {
+    // Get id from request parameters
     const { id } = req.params;
 
     // Get invoice with the matching id from DB
@@ -36,7 +39,7 @@ router.get("/:id", async (req, res, next) => {
       `, [id]
     );
     
-    // Check if invoice exists
+    // Check if invoice exists, if not throw 404 error
     if (results.rows.length === 0) {
       throw new ExpressError(`Can't find invoice with id:${id}.`, 404);
     } 
@@ -48,7 +51,7 @@ router.get("/:id", async (req, res, next) => {
       id: data.id,
       amt: data.amt,
       paid: data.paid,
-      add_date: data.add_date,
+      add_date: `${data.add_date}`,
       paid_date: data.paid_date,
       company: {
         code: data.comp_code,
@@ -66,8 +69,15 @@ router.get("/:id", async (req, res, next) => {
 // POST /invoices route
 router.post("/", async (req, res, next) => {
   try {
+    // Get comp_code and amt from request body
     const {comp_code, amt} = req.body;
 
+    // If necessary info is missing to create an invoice, throw 400 error
+    if(!comp_code || !amt) {
+      throw new ExpressError(`Missing invoice information. Please make sure all required fields are present.`, 400);
+    }
+
+    // Create a new invoice
     const result = await db.query(
           `INSERT INTO invoices (comp_code, amt) 
            VALUES ($1, $2) 
@@ -75,7 +85,7 @@ router.post("/", async (req, res, next) => {
            `, [comp_code, amt]
     );
 
-    return res.json({"invoice": result.rows[0]});
+    return res.status(201).json({"invoice": result.rows[0]});
   } catch (e) {
     return next(e);
   }
@@ -84,14 +94,27 @@ router.post("/", async (req, res, next) => {
 // PUT /invoices/:id route
 router.put("/:id", async (req, res, next) => {
   try {
+    // Get amt from request body
     const { amt } = req.body;
+    // Get id from request parameters
     const { id } = req.params;
 
+    // If amt is missing, throw 400 error
+    if(!amt) {
+      throw new ExpressError(`Missing company information. Please make sure all required fields are present.`, 400);
+    }
+
+    // Update invoice
     const result = await db.query(
       `UPDATE invoices SET amt=$1 WHERE id=$2
       RETURNING id, comp_code, amt, paid, add_date, paid_date
       `, [amt, id]
     );
+    
+    // If no result, it means invoice doesn't exist so throw 404 error
+    if (result.rows.length === 0) {
+      throw new ExpressError(`Can't find invoice with id ${id}.`, 404);
+    } 
 
     return res.json({"invoice": result.rows[0]});
   } catch (e) {
@@ -102,8 +125,18 @@ router.put("/:id", async (req, res, next) => {
 // DELETE /invoices/:id route
 router.delete("/:id", async (req, res, next) => {
   try {
+    // Get id from request parameters
     const { id } = req.params;
 
+    // Find invoice with given id from DB
+    let invoice = await db.query(`SELECT comp_code, amt FROM invoices where id=$1`, [id]);
+
+    // Check if invoice exists first before deleting
+    if (invoice.rows.length === 0) {
+      throw new ExpressError(`Can't find invoice with id:${id}.`, 404);
+    }
+
+    // Delete invoice
     const result = await db.query(`DELETE FROM invoices where id=$1`, [id]);
 
     return res.json({"status": "deleted"});
