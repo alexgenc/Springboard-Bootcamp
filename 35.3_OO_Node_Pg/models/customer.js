@@ -14,6 +14,13 @@ class Customer {
     this.notes = notes;
   }
 
+  /** Return the full name of a customer */
+  fullName() {
+    this.fullName = `${this.firstName} ${this.lastName}`
+
+    return this.fullName
+  }
+
   /** find all customers. */
 
   static async all() {
