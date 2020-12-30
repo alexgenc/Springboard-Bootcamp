@@ -18,6 +18,17 @@ router.get("/", async function(req, res, next) {
   }
 });
 
+/** Show list of best customers */
+router.get("/best-customers", async function(req, res, next) {
+  try {
+    const bestCustomers = await Customer.getBestCustomers();
+    
+    return res.render("best-customers.html", { bestCustomers });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 /** Form to add a new customer. */
 
 router.get("/add/", async function(req, res, next) {
