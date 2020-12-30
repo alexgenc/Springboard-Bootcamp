@@ -18,17 +18,6 @@ router.get("/", async function(req, res, next) {
   }
 });
 
-/** Show list of best customers */
-router.get("/best-customers", async function(req, res, next) {
-  try {
-    const bestCustomers = await Customer.getBestCustomers();
-    
-    return res.render("best-customers.html", { bestCustomers });
-  } catch (err) {
-    return next(err);
-  }
-});
-
 /** Form to add a new customer. */
 
 router.get("/add/", async function(req, res, next) {
@@ -95,6 +84,31 @@ router.post("/:id/edit/", async function(req, res, next) {
     await customer.save();
 
     return res.redirect(`/${customer.id}/`);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
+/** Show list of best customers */
+router.get("/best-customers", async function(req, res, next) {
+  try {
+    const bestCustomers = await Customer.getBestCustomers();
+    
+    return res.render("best-customers.html", { bestCustomers });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** Show customer search results */
+router.get("/search", async function(req, res, next) {
+  try {
+    let searchTerm = req.query.name;
+    
+    const searchResults = await Customer.getCustomersBySearch(searchTerm);
+    
+    return res.render("search.html", { searchResults });
   } catch (err) {
     return next(err);
   }

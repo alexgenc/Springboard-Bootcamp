@@ -100,7 +100,20 @@ class Customer {
       {id: c.id,
        firstName: c.first_name,
        lastName: c.last_name}
-       ));
+    ));
+  }
+
+  static async getCustomersBySearch(search) {
+    let searchTerm = `%${search}%`;
+    const results = await db.query(
+      `SELECT id, first_name, last_name FROM customers WHERE first_name ILIKE $1`, [searchTerm]
+    )
+
+    return results.rows.map(c => new Customer(
+      {id: c.id,
+       firstName: c.first_name,
+       lastName: c.last_name}
+    ));
   }
 }
 
