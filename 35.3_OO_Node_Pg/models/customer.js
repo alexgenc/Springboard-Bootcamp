@@ -85,6 +85,23 @@ class Customer {
       );
     }
   }
+
+  static async getBestCustomers() {
+    const results = await db.query(
+      `SELECT c.id, c.first_name, c.last_name, COUNT(*)
+       FROM reservations as r
+       INNER JOIN customers as c ON r.customer_id = c.id 
+       GROUP BY r.customer_id, c.id 
+       ORDER BY COUNT(*) 
+       DESC LIMIT 10`
+    );
+    
+    return results.rows.map(c => new Customer(
+      {id: c.id,
+       firstName: c.first_name,
+       lastName: c.last_name}
+       ));
+  }
 }
 
 module.exports = Customer;
