@@ -1,3 +1,11 @@
+const express = require('express');
+const router = new express.Router();
+const ExpressError = require('../expressError');
+const Message = require('../models/message');
+const { authenticateJWT } = require("../middleware/auth");
+const { SECRET_KEY} = require('../config')
+const jwt = require("jsonwebtoken");
+
 /** GET /:id - get detail of message.
  *
  * => {message: {id,
@@ -11,6 +19,18 @@
  *
  **/
 
+router.get("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const result = await Message.get(id);
+
+    return res.json(result);
+  } catch(e) {
+    next(e)
+  }
+})
+
 
 /** POST / - post message.
  *
@@ -19,6 +39,18 @@
  *
  **/
 
+router.post("/", async (req, res, next) => {
+  try {
+
+    const { from_username, to_username, body } = req.body;
+
+    const result = await Message.create({from_username, to_username, body})
+    console.log(result);
+    return res.json(result);
+  } catch(e) {
+    next(e)
+  }
+})
 
 /** POST/:id/read - mark message as read:
  *
@@ -28,3 +60,29 @@
  *
  **/
 
+router.post("/:id/read", authenticateJWT, async (req, res, next) => {
+  try {
+
+    const { id } = req.params;
+
+    const result = await Message.get(id);
+    
+    const tokenFromBody = req.body.token;
+
+    const payload = jwt.verify(tokenFromBody, SECRET_KEY);
+
+    const username = payload.username;
+
+    if (result.to_user.username === username ) {
+      const markRead = await Message.markRead(id);
+
+      return res.json(markRead);
+    } else {
+      throw new ExpressError("Not authorized", 400);
+    }
+  } catch(e) {
+    next(e)
+  }
+})
+
+module.exports = router;
