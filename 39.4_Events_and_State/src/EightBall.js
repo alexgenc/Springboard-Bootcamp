@@ -19,7 +19,6 @@ const EightBall = (props) => {
   )
 }
 
-
 EightBall.defaultProps = {
   answers: [
     { msg: "It is certain.", color: "green" },
