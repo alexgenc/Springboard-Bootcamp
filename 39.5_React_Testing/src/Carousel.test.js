@@ -45,3 +45,30 @@ it("works when you click on the left arrow", () => {
   expect(queryByAltText("Photo by Pratik Patel on Unsplash")).not.toBeInTheDocument();
   expect(queryByAltText("Photo by Josh Post on Unsplash")).not.toBeInTheDocument();
 })
+
+it("hides the left arrow when displaying the first image", () => {
+  const { queryByTestId, queryByAltText } = render(<Carousel />);
+
+  // expect the first image to show
+  expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument();
+
+  // expect the left arrow to not show
+  const leftArrow = queryByTestId("left-arrow");
+  expect(leftArrow).not.toBeInTheDocument();
+})
+
+
+it("hides the right arrow when displaying the last image", () => {
+  const { queryByTestId, queryByAltText } = render(<Carousel />);
+  const rightArrow = queryByTestId("right-arrow");
+  // Move forward twice to reach the last image
+  fireEvent.click(rightArrow);
+  fireEvent.click(rightArrow);
+
+  // Expect last image to show
+  expect(queryByAltText("Photo by Josh Post on Unsplash")).toBeInTheDocument();
+
+  // Expect the right arrow to not show
+  expect(rightArrow).not.toBeInTheDocument();
+})
+
