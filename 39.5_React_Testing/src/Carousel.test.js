@@ -28,3 +28,20 @@ it("works when you click on the right arrow", function() {
   expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).not.toBeInTheDocument();
   expect(queryByAltText("Photo by Pratik Patel on Unsplash")).toBeInTheDocument();
 });
+
+it("works when you click on the left arrow", () => {
+  const { queryByTestId, queryByAltText } = render(<Carousel />);
+
+  // move forward in the carousel
+  const rightArrow = queryByTestId("right-arrow");
+  fireEvent.click(rightArrow);
+
+  // move backward in the carousel
+  const leftArrow = queryByTestId("left-arrow");
+  fireEvent.click(leftArrow);
+
+  // Expect the first image to show, but not the second or the third
+  expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument();
+  expect(queryByAltText("Photo by Pratik Patel on Unsplash")).not.toBeInTheDocument();
+  expect(queryByAltText("Photo by Josh Post on Unsplash")).not.toBeInTheDocument();
+})
