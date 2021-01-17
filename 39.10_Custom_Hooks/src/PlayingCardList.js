@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useAxios from './hooks/useAxios';
 import PlayingCard from "./PlayingCard";
 import "./PlayingCardList.css";
