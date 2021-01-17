@@ -71,7 +71,7 @@ const Deck = () => {
     <div className="Deck">
       {deck ? (
         <button className="Deck-gimme" onClick={toggleAutoDraw}>
-          {autoDraw ? "STOP" : "KEEP"} DRAWING FOR ME!
+          {autoDraw ? "STOP" : "KEEP"} DRAWING!
         </button>
       ) : null}
       <div className="Deck-cardarea">{cards}</div>
