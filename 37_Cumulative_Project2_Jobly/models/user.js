@@ -14,15 +14,15 @@ const { BCRYPT_WORK_FACTOR } = require("../config.js");
 /** Related functions for users. */
 
 class User {
-  /** authenticate user with username, password.
+  /** Authenticate user with username, password.
    *
    * Returns { username, first_name, last_name, email, is_admin }
    *
-   * Throws UnauthorizedError is user not found or wrong password.
+   * Throws UnauthorizedError if user not found or wrong password.
    **/
 
   static async authenticate(username, password) {
-    // try to find the user first
+    // Try to find the user first
     const result = await db.query(
           `SELECT username,
                   password,
@@ -31,21 +31,24 @@ class User {
                   email,
                   is_admin AS "isAdmin"
            FROM users
-           WHERE username = $1`,
-        [username],
+           WHERE username = $1
+          `, [username],
     );
 
     const user = result.rows[0];
-
+    
+    // Check if user exists, i.e., if result actaully returns something
     if (user) {
-      // compare hashed password to a new hash from password
+      // Compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
       if (isValid === true) {
+        // Delete user's password from the user object and return user object
         delete user.password;
         return user;
       }
     }
 
+    // If user doesn't exist, throw error
     throw new UnauthorizedError("Invalid username/password");
   }
 
@@ -56,19 +59,21 @@ class User {
    * Throws BadRequestError on duplicates.
    **/
 
-  static async register(
-      { username, password, firstName, lastName, email, isAdmin }) {
+  static async register({ username, password, firstName, lastName, email, isAdmin }) {
+    // Check if username already exists in db
     const duplicateCheck = await db.query(
           `SELECT username
            FROM users
-           WHERE username = $1`,
-        [username],
+           WHERE username = $1
+           `, [username],
     );
-
+    
+    // Throw error if username already exists in db
     if (duplicateCheck.rows[0]) {
       throw new BadRequestError(`Duplicate username: ${username}`);
     }
 
+    // Hash password before storing it in db
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
@@ -80,15 +85,14 @@ class User {
             email,
             is_admin)
            VALUES ($1, $2, $3, $4, $5, $6)
-           RETURNING username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"`,
-        [
-          username,
-          hashedPassword,
-          firstName,
-          lastName,
-          email,
-          isAdmin,
-        ],
+           RETURNING username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
+          `, [ username,
+               hashedPassword,
+               firstName,
+               lastName,
+               email,
+               isAdmin,
+             ],
     );
 
     const user = result.rows[0];
@@ -109,7 +113,8 @@ class User {
                   email,
                   is_admin AS "isAdmin"
            FROM users
-           ORDER BY username`,
+           ORDER BY username
+          `,
     );
 
     return result.rows;
@@ -180,7 +185,9 @@ class User {
                                 first_name AS "firstName",
                                 last_name AS "lastName",
                                 email,
-                                is_admin AS "isAdmin"`;
+                                is_admin AS "isAdmin"
+                     `;
+
     const result = await db.query(querySql, [...values, username]);
     const user = result.rows[0];
 
