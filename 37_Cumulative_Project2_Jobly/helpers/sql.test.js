@@ -56,18 +56,3 @@ describe("sqlForPartialUpdate tests", () => {
     expect(() => { sqlForPartialUpdate({}, jsToSql) }).toThrow(BadRequestError);
   })
 });
-
-
-
-
-
-// describe("createToken", function () {
-//   test("works: not admin", function () {
-//     const token = createToken({ username: "test", is_admin: false });
-//     const payload = jwt.verify(token, SECRET_KEY);
-//     expect(payload).toEqual({
-//       iat: expect.any(Number),
-//       username: "test",
-//       isAdmin: false,
-//     });
-//   });
