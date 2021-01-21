@@ -11,6 +11,7 @@ const Company = require("../models/company");
 
 const companyNewSchema = require("../schemas/companyNew.json");
 const companyUpdateSchema = require("../schemas/companyUpdate.json");
+const companySearchSchema = require("../schemas/companySearch.json");
 
 const router = new express.Router();
 
@@ -51,8 +52,24 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  */
 
 router.get("/", async function (req, res, next) {
+  let query = req.query;
+
+  // Queries will be passed in as a string, but we need minEmployees and maxEmployees values to be integers. So we'll need to convert them to integers if they exist.
+  query.minEmployees ? query.minEmployees = +query.minEmployees : null;
+  query.maxEmployees ? query.maxEmployees = +query.maxEmployees : null;
+  
   try {
-    const companies = await Company.findAll();
+    // Validate queries based on companySearchSchema
+    const validator = jsonschema.validate(query, companySearchSchema);
+    
+    // If queries are not valid, throw error
+    if (!validator.valid) {
+      const errors = validator.errors.map(e => e.stack);
+      throw new BadRequestError(errors);
+    }
+
+    // If queries are valid, run findAll
+    const companies = await Company.findAll(query);
     return res.json({ companies });
   } catch (err) {
     return next(err);
