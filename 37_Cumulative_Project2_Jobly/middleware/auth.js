@@ -56,7 +56,7 @@ function ensureAdmin(req, res, next) {
   }
 }
 
-/** Middleware to use when user must be the user with the matching username or an admin.
+/** Middleware to use when user must be an admin or the user with the matching username.
  *
  * If not, raises Unauthorized.
  */
