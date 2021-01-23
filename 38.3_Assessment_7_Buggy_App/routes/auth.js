@@ -4,6 +4,7 @@ const User = require('../models/user');
 const express = require('express');
 const router = express.Router();
 const createTokenForUser = require('../helpers/createToken');
+const { authUser } = require('../middleware/auth');
 
 
 /** Register user; return token.
@@ -37,15 +38,17 @@ router.post('/register', async function(req, res, next) {
  *
  */
 
-router.post('/login', async function(req, res, next) {
+router.post('/login', authUser, async function(req, res, next) {
   try {
     const { username, password } = req.body;
-    let user = User.authenticate(username, password);
+    // BUG FIX #4 - Add await keyword 
+    let user = await User.authenticate(username, password);
+    
     const token = createTokenForUser(username, user.admin);
     return res.json({ token });
   } catch (err) {
     return next(err);
   }
-}); // end
+});
 
 module.exports = router;
