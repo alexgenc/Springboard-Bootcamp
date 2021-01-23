@@ -22,7 +22,7 @@ router.get('/', authUser, requireLogin, async function(req, res, next) {
   } catch (err) {
     return next(err);
   }
-}); // end
+});
 
 /** GET /[username]
  *
@@ -35,11 +35,7 @@ router.get('/', authUser, requireLogin, async function(req, res, next) {
  *
  */
 
-router.get('/:username', authUser, requireLogin, async function(
-  req,
-  res,
-  next
-) {
+router.get('/:username', authUser, requireLogin, async function(req, res, next) {
   try {
     let user = await User.get(req.params.username);
     return res.json({ user });
@@ -63,14 +59,17 @@ router.get('/:username', authUser, requireLogin, async function(
  *
  */
 
-router.patch('/:username', authUser, requireLogin, requireAdmin, async function(
-  req,
-  res,
-  next
-) {
+// BUG FIX #2 - Remove requireAdmin middleware so a user can edit their own information.
+// router.patch('/:username', authUser, requireLogin, requireAdmin, async function(req, res, next) {
+router.patch('/:username', authUser, requireLogin, async function(req, res, next) {
   try {
     if (!req.curr_admin && req.curr_username !== req.params.username) {
       throw new ExpressError('Only  that user or admin can edit a user.', 401);
+    }
+
+    // BUG FIX #3 - We need to make sure only first_name, last_name, phone, and email are changeable.
+    if (req.body.admin || req.body.password) {
+      throw new ExpressError("You're not authorized to update Admin status and/or password", 401);
     }
 
     // get fields to change; remove token so we don't try to change it
@@ -82,7 +81,7 @@ router.patch('/:username', authUser, requireLogin, requireAdmin, async function(
   } catch (err) {
     return next(err);
   }
-}); // end
+});
 
 /** DELETE /[username]
  *
@@ -94,17 +93,14 @@ router.patch('/:username', authUser, requireLogin, requireAdmin, async function(
  * If user cannot be found, return a 404 err.
  */
 
-router.delete('/:username', authUser, requireAdmin, async function(
-  req,
-  res,
-  next
-) {
+router.delete('/:username', authUser, requireAdmin, async function(req, res, next) {
   try {
-    User.delete(req.params.username);
+    // BUG FIX #5 - Add await keyword
+    await User.delete(req.params.username);
     return res.json({ message: 'deleted' });
   } catch (err) {
     return next(err);
   }
-}); // end
+}); 
 
 module.exports = router;
