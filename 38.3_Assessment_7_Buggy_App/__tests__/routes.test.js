@@ -90,6 +90,17 @@ describe("POST /auth/login", function() {
     expect(username).toBe("u1");
     expect(admin).toBe(false);
   });
+
+  // BUG FIX #4 
+  test("should throw 401 error if invalid username and/or password", async function() {
+    const response = await request(app)
+      .post("/auth/login")
+      .send({
+        username: "wrong-username",
+        password: "wrong-password"
+      });
+    expect(response.statusCode).toBe(401);
+  });
 });
 
 describe("GET /users", function() {
@@ -141,6 +152,23 @@ describe("PATCH /users/[username]", function() {
     expect(response.statusCode).toBe(401);
   });
 
+  // TEST BUG FIX #2
+  test("should patch data if right user", async function() {
+    const response = await request(app)
+      .patch("/users/u1")
+      .send({ _token: tokens.u1, first_name: "new-fn1" });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.user).toEqual({
+      username: "u1",
+      first_name: "new-fn1",
+      last_name: "ln1",
+      email: "email1",
+      phone: "phone1",
+      admin: false,
+      password: expect.any(String)
+    });
+  });
+
   test("should patch data if admin", async function() {
     const response = await request(app)
       .patch("/users/u1")
@@ -157,6 +185,7 @@ describe("PATCH /users/[username]", function() {
     });
   });
 
+  // TEST BUG FIX #3 - Make sure only appropriate fields are changeable.
   test("should disallowing patching not-allowed-fields", async function() {
     const response = await request(app)
       .patch("/users/u1")
@@ -185,12 +214,21 @@ describe("DELETE /users/[username]", function() {
     expect(response.statusCode).toBe(401);
   });
 
+  // BUG FIX #5 
   test("should allow if admin", async function() {
     const response = await request(app)
       .delete("/users/u1")
       .send({ _token: tokens.u3 }); // u3 is admin
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({ message: "deleted" });
+  });
+
+  // BUG FIX #5 
+  test("should throw 404 error if can't find user", async function() {
+    const response = await request(app)
+      .delete("/users/not-a-user")
+      .send({ _token: tokens.u3 }); // u3 is admin
+    expect(response.statusCode).toBe(404);
   });
 });
 
