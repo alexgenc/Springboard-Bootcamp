@@ -1,0 +1,29 @@
+.Dog h2 {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.Dog h4 {
+  margin: 3px;
+}
+
+.Dog p {
+  margin-top: 0px;
+}
+
+.Dog ul li {
+  list-style-type: none;
+}
+
+.Dog img {
+  margin-bottom: 20px;
+}
+
+.Dog a {
+  text-decoration: none;
+  color: black;
+}
+
+.Dog a:hover {
+  text-decoration: underline;
+}
