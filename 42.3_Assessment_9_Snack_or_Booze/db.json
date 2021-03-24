@@ -27,6 +27,14 @@
       "description": "Crisp!",
       "recipe": "Open can.",
       "serve": "Immediately."
+    },
+    {
+      "type": "drink",
+      "id": "coca-cola",
+      "name": "coke",
+      "description": "coke",
+      "recipe": "coke",
+      "serve": "coke"
     }
   ],
   "snacks": [
@@ -50,6 +58,14 @@
       "description": "Tart and delicious.",
       "recipe": "Mix arugula, toasted walnuts, and thinly-sliced Parmesan cheese. Dress with lemon and olive oil.",
       "serve": "Place on tiny, precious little plates."
+    },
+    {
+      "type": "snack",
+      "id": "Big-Burger",
+      "name": "Very Big Burger",
+      "description": "Very Big Burger",
+      "recipe": "Very Big Burger",
+      "serve": "Very Big Burger"
     }
   ]
 }
