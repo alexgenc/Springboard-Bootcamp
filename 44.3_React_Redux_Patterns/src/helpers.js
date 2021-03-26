@@ -1,6 +1,6 @@
 
 // Helper function for calculating cart total
-export function calculateCartTotal(products, cart) {
+export function calculateCartTotal(products, cart, discountAmount = 0) {
   let total = 0;
   
   for (let id in products) {
@@ -9,7 +9,8 @@ export function calculateCartTotal(products, cart) {
     total += price * quantity;
   }
   
-  return total;
+  let totalWithDiscount = total * (1 - discountAmount);
+  return totalWithDiscount.toFixed(2);
 }
 
 // Helper function for calculating how many items are in cart
