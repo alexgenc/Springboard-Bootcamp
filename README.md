@@ -1,3 +1,1 @@
-# Springboard_Sw_Eng_Bootcamp
-
-All submittable projects and exercises.
+All submittable projects and exercises for Springboard's Software Engineering Career Track.
