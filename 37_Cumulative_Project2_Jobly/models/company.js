@@ -44,75 +44,65 @@ class Company {
     return company;
   }
 
-  /** Find all companies.
+  /** Find all companies (optional filter on searchFilters).
+   *
+   * searchFilters (all optional):
+   * - minEmployees
+   * - maxEmployees
+   * - name (will find case-insensitive, partial matches)
    *
    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
    * */
 
-  static async findAll(query = {}) {
+  static async findAll(searchFilters = {}) {
+    let query = `SELECT handle,
+                        name,
+                        description,
+                        num_employees AS "numEmployees",
+                        logo_url AS "logoUrl"
+                 FROM companies`;
+    let whereExpressions = [];
+    let queryValues = [];
 
-    
-    const { name, minEmployees, maxEmployees } = query; 
+    const { minEmployees, maxEmployees, name } = searchFilters;
 
-    // Check min. number of employees isn't greater than max. number of employees.
     if (minEmployees > maxEmployees) {
-      throw new BadRequestError("Minimum number of employees can't be greater than maximum number of employees!")
-    } 
-
-    // Create an empty array to store serialized parameters; ex: x = $1, y = $2.
-    const serializedFilters = [];
-    // Create an empty array to store query values to filter companies.
-    const filterValues = [];
-
-
-    // We only have 3 query parameters to filter by. Name, minEmployees, and maxEmployees. Check if each one exists and if so, store needed values in the 2 arrays created above.
-
-    if (name)  { 
-      serializedFilters.push(`name ILIKE $${serializedFilters.length + 1}`)
-      filterValues.push(`%${name}%`) 
-    } 
-    
-    if (minEmployees) {
-      serializedFilters.push(`num_employees >= $${serializedFilters.length + 1}`)
-      filterValues.push(minEmployees);
+      throw new BadRequestError("Min employees cannot be greater than max");
     }
-    
-    if (maxEmployees) {
-      serializedFilters.push(`num_employees <= $${serializedFilters.length + 1}`)
-      filterValues.push(maxEmployees)
-    } 
 
-    // Initialize a filter variable. This will be a string containing our serialized parameters.
-    let filter;
-    
-    // If any query parameters are passed in, i.e., length > 0,  set filter variable accordingly. 
-    serializedFilters.length > 0 ? filter = `WHERE ${serializedFilters.join(" AND ")}` : null
-    
-    // Create an initial SQL query
-    let dbQuery = `SELECT handle,
-                    name,
-                    description,
-                    num_employees AS "numEmployees",
-                    logo_url AS "logoUrl"
-                    FROM companies
-                  `;
+    // For each possible search term, add to whereExpressions and queryValues so
+    // we can generate the right SQL
 
-    // If filter exists, meaning there are query parameters passed in, add filter to our SQL query. Here, filter is the WHERE statement of our SQL query. If filter is falsy, that means there are no query parameters, so our SQL query won't have a WHERE statement in it.
-    filter ? dbQuery = dbQuery + filter : null
+    if (minEmployees !== undefined) {
+      queryValues.push(minEmployees);
+      whereExpressions.push(`num_employees >= $${queryValues.length}`);
+    }
 
-    // Lastly, add an ORDER BY statement to our SQL query.
-    dbQuery = dbQuery + ` ORDER BY name`
+    if (maxEmployees !== undefined) {
+      queryValues.push(maxEmployees);
+      whereExpressions.push(`num_employees <= $${queryValues.length}`);
+    }
 
-    // Make a database query and return the results. If there are no filters, results will list all existing companies.
-    const companiesRes = await db.query(dbQuery, filterValues);
+    if (name) {
+      queryValues.push(`%${name}%`);
+      whereExpressions.push(`name ILIKE $${queryValues.length}`);
+    }
 
+    if (whereExpressions.length > 0) {
+      query += " WHERE " + whereExpressions.join(" AND ");
+    }
+
+    // Finalize query and return results
+
+    query += " ORDER BY name";
+    const companiesRes = await db.query(query, queryValues);
     return companiesRes.rows;
   }
 
   /** Given a company handle, return data about company.
    *
    * Returns { handle, name, description, numEmployees, logoUrl, jobs }
-   *   where jobs is [{ id, title, salary, equity, companyHandle }, ...]
+   *   where jobs is [{ id, title, salary, equity }, ...]
    *
    * Throws NotFoundError if not found.
    **/
@@ -131,6 +121,16 @@ class Company {
     const company = companyRes.rows[0];
 
     if (!company) throw new NotFoundError(`No company: ${handle}`);
+
+    const jobsRes = await db.query(
+          `SELECT id, title, salary, equity
+           FROM jobs
+           WHERE company_handle = $1
+           ORDER BY id`,
+        [handle],
+    );
+
+    company.jobs = jobsRes.rows;
 
     return company;
   }
