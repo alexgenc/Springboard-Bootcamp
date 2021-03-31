@@ -5,7 +5,7 @@ const { NotFoundError} = require("../expressError");
 const { sqlForPartialUpdate } = require("../helpers/sql");
 
 
-/** Related functions for jobs. */
+/** Related functions for companies. */
 
 class Job {
   /** Create a job (from data), update db, return new job data.
@@ -22,15 +22,13 @@ class Job {
                              equity,
                              company_handle)
            VALUES ($1, $2, $3, $4)
-           RETURNING id, title, salary, equity, company_handle AS "companyHandle"
-          `, [
-              data.title,
-              data.salary,
-              data.equity,
-              data.companyHandle,
-             ]
-        );
-
+           RETURNING id, title, salary, equity, company_handle AS "companyHandle"`,
+        [
+          data.title,
+          data.salary,
+          data.equity,
+          data.companyHandle,
+        ]);
     let job = result.rows[0];
 
     return job;
@@ -54,9 +52,7 @@ class Job {
                         j.company_handle AS "companyHandle",
                         c.name AS "companyName"
                  FROM jobs j 
-                 LEFT JOIN companies AS c ON c.handle = j.company_handle
-                `;
-
+                   LEFT JOIN companies AS c ON c.handle = j.company_handle`;
     let whereExpressions = [];
     let queryValues = [];
 
@@ -104,9 +100,7 @@ class Job {
                   equity,
                   company_handle AS "companyHandle"
            FROM jobs
-           WHERE id = $1`
-          , [id]
-    );
+           WHERE id = $1`, [id]);
 
     const job = jobRes.rows[0];
 
@@ -119,9 +113,7 @@ class Job {
                   num_employees AS "numEmployees",
                   logo_url AS "logoUrl"
            FROM companies
-           WHERE handle = $1
-          `, [job.companyHandle]
-    );
+           WHERE handle = $1`, [job.companyHandle]);
 
     delete job.companyHandle;
     job.company = companiesRes.rows[0];
@@ -154,9 +146,7 @@ class Job {
                                 title, 
                                 salary, 
                                 equity,
-                                company_handle AS "companyHandle"
-                     `;
-
+                                company_handle AS "companyHandle"`;
     const result = await db.query(querySql, [...values, id]);
     const job = result.rows[0];
 
@@ -175,10 +165,7 @@ class Job {
           `DELETE
            FROM jobs
            WHERE id = $1
-           RETURNING id
-          `, [id]
-    );
-    
+           RETURNING id`, [id]);
     const job = result.rows[0];
 
     if (!job) throw new NotFoundError(`No job: ${id}`);
