@@ -14,15 +14,15 @@ const { BCRYPT_WORK_FACTOR } = require("../config.js");
 /** Related functions for users. */
 
 class User {
-  /** Authenticate user with username, password.
+  /** authenticate user with username, password.
    *
    * Returns { username, first_name, last_name, email, is_admin }
    *
-   * Throws UnauthorizedError if user not found or wrong password.
+   * Throws UnauthorizedError is user not found or wrong password.
    **/
 
   static async authenticate(username, password) {
-    // Try to find the user first
+    // try to find the user first
     const result = await db.query(
           `SELECT username,
                   password,
@@ -31,24 +31,21 @@ class User {
                   email,
                   is_admin AS "isAdmin"
            FROM users
-           WHERE username = $1
-          `, [username],
+           WHERE username = $1`,
+        [username],
     );
 
     const user = result.rows[0];
-    
-    // Check if user exists, i.e., if result actaully returns something
+
     if (user) {
-      // Compare hashed password to a new hash from password
+      // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
       if (isValid === true) {
-        // Delete user's password from the user object and return user object
         delete user.password;
         return user;
       }
     }
 
-    // If user doesn't exist, throw error
     throw new UnauthorizedError("Invalid username/password");
   }
 
@@ -59,21 +56,19 @@ class User {
    * Throws BadRequestError on duplicates.
    **/
 
-  static async register({ username, password, firstName, lastName, email, isAdmin }) {
-    // Check if username already exists in db
+  static async register(
+      { username, password, firstName, lastName, email, isAdmin }) {
     const duplicateCheck = await db.query(
           `SELECT username
            FROM users
-           WHERE username = $1
-           `, [username],
+           WHERE username = $1`,
+        [username],
     );
-    
-    // Throw error if username already exists in db
+
     if (duplicateCheck.rows[0]) {
       throw new BadRequestError(`Duplicate username: ${username}`);
     }
 
-    // Hash password before storing it in db
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
@@ -85,14 +80,15 @@ class User {
             email,
             is_admin)
            VALUES ($1, $2, $3, $4, $5, $6)
-           RETURNING username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
-          `, [ username,
-               hashedPassword,
-               firstName,
-               lastName,
-               email,
-               isAdmin,
-             ],
+           RETURNING username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"`,
+        [
+          username,
+          hashedPassword,
+          firstName,
+          lastName,
+          email,
+          isAdmin,
+        ],
     );
 
     const user = result.rows[0];
@@ -113,8 +109,7 @@ class User {
                   email,
                   is_admin AS "isAdmin"
            FROM users
-           ORDER BY username
-          `,
+           ORDER BY username`,
     );
 
     return result.rows;
@@ -144,6 +139,12 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
 
+    const userApplicationsRes = await db.query(
+          `SELECT a.job_id
+           FROM applications AS a
+           WHERE a.username = $1`, [username]);
+
+    user.applications = userApplicationsRes.rows.map(a => a.job_id);
     return user;
   }
 
@@ -185,9 +186,7 @@ class User {
                                 first_name AS "firstName",
                                 last_name AS "lastName",
                                 email,
-                                is_admin AS "isAdmin"
-                     `;
-
+                                is_admin AS "isAdmin"`;
     const result = await db.query(querySql, [...values, username]);
     const user = result.rows[0];
 
@@ -210,6 +209,35 @@ class User {
     const user = result.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
+  }
+
+  /** Apply for job: update db, returns undefined.
+   *
+   * - username: username applying for job
+   * - jobId: job id
+   **/
+
+  static async applyToJob(username, jobId) {
+    const preCheck = await db.query(
+          `SELECT id
+           FROM jobs
+           WHERE id = $1`, [jobId]);
+    const job = preCheck.rows[0];
+
+    if (!job) throw new NotFoundError(`No job: ${jobId}`);
+
+    const preCheck2 = await db.query(
+          `SELECT username
+           FROM users
+           WHERE username = $1`, [username]);
+    const user = preCheck2.rows[0];
+
+    if (!user) throw new NotFoundError(`No username: ${username}`);
+
+    await db.query(
+          `INSERT INTO applications (job_id, username)
+           VALUES ($1, $2)`,
+        [jobId, username]);
   }
 }
 
