@@ -28,7 +28,7 @@ function authenticateJWT(req, res, next) {
   }
 }
 
-/** Middleware to use when they must be logged in.
+/** Middleware to use when user must be logged in.
  *
  * If not, raises Unauthorized.
  */
@@ -59,7 +59,7 @@ function ensureAdmin(req, res, next) {
   }
 }
 
-/** Middleware to use when user either must be logged in as an admin or the correct user.
+/** Middleware to use when user either must be logged in as an admin or as the correct user.
  *
  *  If not, raises Unauthorized.
  */
