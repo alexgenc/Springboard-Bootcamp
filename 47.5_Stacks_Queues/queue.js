@@ -20,26 +20,52 @@ class Queue {
   /** enqueue(val): add new value to end of the queue. Returns undefined. */
 
   enqueue(val) {
+    let newNode = new Node(val);
 
+    if (!this.first) {
+      this.first = newNode;
+      this.last = newNode;
+    } else {
+      this.last.next = newNode;
+      this.last = newNode;
+    }
+
+    this.size += 1;
   }
 
   /** dequeue(): remove the node from the start of the queue
    * and return its value. Should throw an error if the queue is empty. */
 
   dequeue() {
+    if (!this.first) {
+      throw new Error("Queue is empty!");
+    } 
 
+    let firstNode = this.first;
+
+    // Check for edge case where there's only one node in the queue
+    if (this.first === this.last) {
+      this.last = null;
+    }
+
+    // Set the second node in the queue as the first node
+    this.first = this.first.next 
+
+    this.size -= 1;
+
+    return firstNode.val;
   }
 
   /** peek(): return the value of the first node in the queue. */
 
   peek() {
-
+    return this.first.val;
   }
 
   /** isEmpty(): return true if the queue is empty, otherwise false */
 
   isEmpty() {
-
+    return this.size === 0;
   }
 }
 
