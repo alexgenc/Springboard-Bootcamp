@@ -44,6 +44,45 @@ Split squares must contain exactly four parts::
 def validate(s):
     """Validate that a given square is valid.."""
 
+    # START SOLUTION
+
+    # Base case: it's a simple square, so as long as it's either 0 or 1
+    # it's valid.
+
+    if type(s) == int:
+        return s == 0 or s == 1
+
+    # Base case: if not a list of 4, it's invalid
+
+    if type(s) != list or len(s) != 4:
+        return False
+
+    # It's a split square:
+    # Recurse intro quadrants and check each, "failing fast".
+    #
+    # Note: alternately, we could write the rest of this function in
+    # one pretty line by using the awesome `all(iterable)` function:
+    #
+    #   return all(validate(q) for q in s)
+
+    for q in s:
+        if not validate(q):
+            return False
+
+    return True
+
+    # It's questionable style, as it's probably less readable, but
+    # this entire funtion could be written as
+    #
+    # return (
+    #     (type(s) == int and (s == 0 or s == 1)) or
+    #     (type(s) == list and
+    #         len(s) == 4 and
+    #         all(validate(q) for q in s)
+    #     )
+
+    # END SOLUTION
+
 
 if __name__ == "__main__":
     import doctest
