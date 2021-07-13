@@ -1,6 +1,35 @@
 # CryptoX - Capstone Project 2 - Alex Genc
 
 
+## About the Project
+
+CryptoX is a cryptocurrency website that displays market information for cryptocurrencies. 
+
+## Built With
+
+The coding languages, frameworks, and libraries that were used on this project:
+
+Frontend
+* [Javascript](https://www.javascript.com/)
+* [React](https://reactjs.org/)
+* [Material-UI](https://material-ui.com/)
+* [Bootstrap](https://getbootstrap.com/)
+* HTML
+* CSS
+* [Axios](https://www.npmjs.com/package/axios)
+
+Backend
+* [Node.js](https://nodejs.org/en/)
+* [Express.js](https://expressjs.com/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [Node-PostgreSQL](https://node-postgres.com/)
+* [JSON Schema](https://json-schema.org/)
+* [bcrypt](https://www.npmjs.com/package/bcrypt)
+
+## How to Run the Project
+
+
+
 
 ## API
 
